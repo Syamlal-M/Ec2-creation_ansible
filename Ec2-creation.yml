@@ -1,0 +1,29 @@
+---
+ - name: 'creating aws instance by ansible code'
+   hosts: localhost  
+   connection: local
+   gather_facts: false 
+   vars:
+
+     region: us-east-1  
+     instance_type: t2.micro
+     ami: ami-0b898040803850657  
+     key_name: ansible1  
+   tasks:
+
+     - name: 'creating ec2-instance'
+       ec2:
+          key_name: "{{key_name}}"
+          instance_type: "{{ instance_type}}"
+          image: "{{ ami }}"
+          group: ansblebaby   
+          wait: true
+          region: "{{ region }}"
+          count: 1  # default
+
+          count_tag:
+            Name: Demo
+          instance_tags:
+            Name: Demo
+       register: ec2
+
